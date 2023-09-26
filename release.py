@@ -21,6 +21,10 @@ def new_version():
     tags = rc.stdout.decode().strip().split('\n')
     print("version tags:", tags)
 
+    if not tags:
+        print('got none of the tags')
+        return
+
     versions = []
 
     for tag in tags:
@@ -46,12 +50,17 @@ def new_version():
     else:
         patch += 1
 
-    print("got a new version:", major, minor, patch)
     return semantic_version.Version(major=major, minor=minor, patch=patch)
 
 
 def release():
     v = new_version()
+
+    if not v:
+        print('no new version found')
+        sys.exit(1)
+
+    print("got a new version:", v)
 
     branch = "release-{}.{}.{}".format(v.major, v.minor, v.patch)
     tag = "{}.{}.{}-rc.0".format(v.major, v.minor, v.patch)
@@ -71,8 +80,6 @@ def release():
         if rc.returncode != 0:
             print(rc.stderr.decode())
             sys.exit(rc.returncode)
-
-        print(rc.stdout.decode())
 
 
 if __name__ == '__main__':
