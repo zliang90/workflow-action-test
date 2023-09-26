@@ -10,7 +10,7 @@ MAX_MINOR = 30
 
 
 def new_version():
-    command = ["git", "--no-pager", "tag"]
+    command = ["git", "--no-pager", "tag", "-l"]
 
     rc = subprocess.run(command, capture_output=True)
 
