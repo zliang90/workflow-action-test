@@ -61,7 +61,7 @@ def release():
         ['git', 'checkout', MAIN_BRANCH],
         ['git', 'checkout', '-b', branch],
         ['git', 'push', 'origin', branch],
-        ['git', 'tag', tag, '-m', 'new release rc'],
+        ['git', 'tag', tag],
         ['git', 'push', 'origin', tag],
         ['git', 'checkout', MAIN_BRANCH]
     ]
