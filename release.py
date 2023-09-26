@@ -39,10 +39,10 @@ def new_version():
 
     major, minor, patch = latestVer.major, latestVer.minor, latestVer.patch
 
-    if patch > MAX_PATCH:
+    if patch >= MAX_PATCH:
         minor += 1
         patch = 0
-    elif minor > MAX_MINOR:
+    elif minor >= MAX_MINOR:
         major += 1
         minor = 0
     else:
