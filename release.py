@@ -46,8 +46,7 @@ def new_version():
     else:
         patch += 1
 
-    print("got new version:", major, minor, patch)
-
+    print("got a new version:", major, minor, patch)
     return semantic_version.Version(major=major, minor=minor, patch=patch)
 
 
@@ -66,12 +65,7 @@ def release():
         ['git', 'checkout', MAIN_BRANCH]
     ]
 
-    print("---------------- release ----------------")
-    print("branch:", branch)
-    print("tag:", tag)
-
     for command in commands:
-        print('command: ', command)
         rc = subprocess.run(command, capture_output=True)
 
         if rc.returncode != 0:
