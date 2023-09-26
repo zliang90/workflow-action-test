@@ -1,8 +1,20 @@
-# *- coding: utf-8 -*-
+# Copyright 2023 bytetrade
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
-import sys
-import subprocess
 import semantic_version
+import subprocess
+import sys
 
 MAIN_BRANCH = 'main'
 MAX_PATCH = 40
@@ -12,13 +24,12 @@ MAX_MINOR = 30
 def new_version():
     command = ["git", "--no-pager", "tag", "-l"]
 
-    rc = subprocess.run(command, capture_output=True)
+    r = subprocess.run(command, capture_output=True)
+    if r.returncode != 0:
+        print(r.stderr.decode())
+        return
 
-    if rc.returncode != 0:
-        print(rc.stderr.decode())
-        sys.exit(rc.returncode)
-
-    tags = rc.stdout.decode().strip().split('\n')
+    tags = r.stdout.decode().strip().split('\n')
     print("version tags:", tags)
 
     if not tags:
@@ -29,7 +40,7 @@ def new_version():
 
     for tag in tags:
         try:
-            v=semantic_version.Version(tag)
+            v = semantic_version.Version(tag)
             versions.append(v)
         except ValueError:
             continue
@@ -69,17 +80,17 @@ def release():
         ['git', 'checkout', MAIN_BRANCH],
         ['git', 'checkout', '-b', branch],
         ['git', 'push', 'origin', branch],
+
         ['git', 'tag', tag],
         ['git', 'push', 'origin', tag],
         ['git', 'checkout', MAIN_BRANCH]
     ]
 
     for command in commands:
-        rc = subprocess.run(command, capture_output=True)
-
-        if rc.returncode != 0:
-            print(rc.stderr.decode())
-            sys.exit(rc.returncode)
+        r = subprocess.run(command, capture_output=True)
+        if r.returncode != 0:
+            print(r.stderr.decode())
+            sys.exit(r.returncode)
 
 
 if __name__ == '__main__':
