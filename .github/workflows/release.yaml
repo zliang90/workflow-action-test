@@ -25,7 +25,7 @@ jobs:
       - name: 'Release new branch and rc'
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install semantic_version==2.10.0
           pwd
           git --no-pager branch -a
           git --no-pager tag -l
