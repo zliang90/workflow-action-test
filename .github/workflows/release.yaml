@@ -1,11 +1,5 @@
 name: Release
 
-on:
-  workflow_dispatch:
-    inputs:
-      tags:
-        description: 'Release Tags'
-
 jobs:
   release:
     runs-on: ubuntu-latest
