@@ -42,9 +42,10 @@ def new_version():
     if patch >= MAX_PATCH:
         minor += 1
         patch = 0
-    elif minor >= MAX_MINOR:
+    elif minor >= MAX_MINOR and patch >= MAX_PATCH:
         major += 1
         minor = 0
+        patch += 1
     else:
         patch += 1
 
